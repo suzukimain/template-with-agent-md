@@ -27,6 +27,14 @@ in `progress.md`. No exceptions.
 - [ ] Not self-graded. One of: sub-agent review, test suite, or the human
   confirmed.
 
+## Structured Output / Tool Verification
+
+- [ ] Tool arguments and structured outputs were validated before use
+  (required fields, types, enum values, and file paths).
+- [ ] Tool failures used structured error information where available:
+  `status`, `type`, `message`, `suggestion`.
+- [ ] High-risk claims or changes had an adversarial or independent check.
+
 ## Task-Specific Criteria
 
 <!--

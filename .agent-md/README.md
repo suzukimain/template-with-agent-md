@@ -21,9 +21,14 @@ skills. Native Codex skills live under `.agents/skills/<name>/SKILL.md`.
 1. Create `.agent-md/bin/<name>.sh`.
 2. The first 1-2 comment lines must describe what the helper does.
    `discover_helpers` uses them as the search snippet.
-3. Keep each helper self-contained. No side effects on load, only on
+3. Document the helper contract: what it does, when to use it, when not
+   to use it, and what it returns.
+4. Prefer stable output over prose dumps. When the helper is consumed by
+   an agent or hook, use JSON or clear key-value lines. For failures,
+   include `status`, `type`, `message`, and `suggestion` when practical.
+5. Keep each helper self-contained. No side effects on load, only on
    execution.
-4. Document required dependencies in the header.
+6. Document required dependencies in the header.
 
 ## Philosophy
 

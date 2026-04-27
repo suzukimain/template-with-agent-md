@@ -30,6 +30,7 @@ jobs:
           python3 -m json.tool .claude/settings.json >/dev/null
           python3 -m json.tool .codex/hooks.json >/dev/null
           cmp AGENT.md CLAUDE.md
+          ! git grep -n -E 'Archimedes|Aider|claude-md|CONVENTIONS|cursorrules|windsurfrules|CRISPY' -- . ':!.github/workflows/ci.yml'
 
   bats:
     runs-on: ubuntu-latest
@@ -69,6 +70,6 @@ jobs:
           test -f .agent-md/bin/playwright-capture.sh
           test -f .githooks/pre-commit
           test -f memory/progress.md
-          grep -q '^.agent/$' .gitignore
+          grep -q '^\.agent/$' .gitignore
           # githooks must NOT be auto-activated
           [ "$(git config --get core.hooksPath || true)" = "" ]

@@ -197,7 +197,34 @@ These are plain shell helpers. Native Codex skills are under
 
 ---
 
-## 11. Context Management
+## 11. Tool And Runtime Contracts
+
+When building or using agent runtimes, prefer explicit contracts over
+prose conventions.
+
+- Route on structured status: exit codes, JSON fields, tool results, and
+  stop reasons. Do not parse natural language when a structured signal
+  exists.
+- Validate structured output before use: required fields, types, allowed
+  values, and paths. Reject malformed tool arguments instead of guessing.
+- When you control helper output, return structured failures with
+  `status`, `type`, `message`, and `suggestion`.
+- Run independent tool calls in parallel when safe, then reconcile the
+  results. Do not parallelize dependent steps.
+- Use selective context loading. Read only relevant files or history,
+  summarize durable findings into `memory/`, and avoid pasting large
+  static prompts or raw dumps into every turn.
+- When a host exposes model or reasoning controls, use the cheapest
+  capable mode for routine execution and reserve expensive reasoning for
+  architecture, high-risk decisions, or failure analysis.
+- When implementing API-backed agents, set output budgets deliberately;
+  do not leave max output sizes unbounded by default.
+- For high-stakes answers or risky changes, use an adversarial or
+  independent verification step before presenting the result as reliable.
+
+---
+
+## 12. Context Management
 
 - After long conversations, re-read relevant files before editing.
 - If memory is degrading, write the current state to `memory/progress.md`
@@ -209,7 +236,7 @@ These are plain shell helpers. Native Codex skills are under
 
 ---
 
-## 12. Self-Correction
+## 13. Self-Correction
 
 - After any correction from the human, add the pattern to
   `memory/gotchas.md`.
@@ -220,7 +247,7 @@ These are plain shell helpers. Native Codex skills are under
 
 ---
 
-## 13. Communication
+## 14. Communication
 
 - When the user says "yes", "do it", or "push", execute.
 - When using existing code as reference, study it and match its patterns.
@@ -230,7 +257,7 @@ These are plain shell helpers. Native Codex skills are under
 
 ---
 
-## 14. Installed Agent Targets
+## 15. Installed Agent Targets
 
 `AGENT.md` is the source of truth. The installer copies or wraps it for
 agent-specific locations.

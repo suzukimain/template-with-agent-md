@@ -74,6 +74,29 @@ Agent guidance has two layers:
 If something can be forgotten or rationalized away, move it out of prose
 and into a checked artifact.
 
+## Runtime Lessons Applied
+
+The production-agent lessons that fit this repo are applied as contracts,
+not as copied API boilerplate:
+
+- **Cost/context discipline** — concise directives, helper discovery, and
+  durable `memory/` files instead of giant repeated prompts.
+- **Reliability** — structured hook JSON, deterministic checks,
+  destructive-command blocks, and explicit unverified-state warnings.
+- **Performance** — bounded work slices, selective context loading, safe
+  parallel tool use, and truncation warnings.
+- **Tool use** — structured tool-result guidance, validation before
+  execution, and clear helper boundaries.
+- **Output quality** — tests, runtime evidence, visual artifacts, and
+  independent/adversarial verification.
+
+API-specific features such as prompt caching, streaming display,
+provider retries, idempotency keys, temperature tuning, and batch
+processing belong in the application or host runtime. `agent-md` tells
+the coding agent to document and verify those choices when the project
+uses them; it does not pretend to enforce provider behavior from a rules
+file.
+
 ## Enforcement Matrix
 
 | Check | Claude Code | Codex | Cursor / Windsurf / Other |

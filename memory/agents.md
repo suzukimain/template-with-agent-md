@@ -36,6 +36,19 @@ Runtime, language, framework, version. Example:
 - Type-check: tsc --noEmit
 -->
 
+## Agent Runtime Policy
+
+<!--
+Use this when the project itself builds with AI APIs or model routing.
+Example:
+
+- Default model / effort: <routine execution choice>
+- Expensive reasoning reserved for: <architecture, high-risk changes, debugging>
+- Context policy: <what gets loaded, summarized, cached, or excluded>
+- Tool result contract: <JSON schema, key-value format, or validation rule>
+- Retry / fallback policy: <if API-backed tools are part of the app>
+-->
+
 ## Forbidden Patterns
 
 <!--
