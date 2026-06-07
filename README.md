@@ -15,20 +15,29 @@ Honest scope:
 
 ## Quickstart
 
+This is a GitHub template repository. There is no install step — the
+agent-specific files ship checked in.
+
+- Click **Use this template → Create a new repository**, or
+- Copy the files below into an existing project.
+
 ```bash
-# From inside your project directory
-curl -sL https://raw.githubusercontent.com/iamfakeguru/agent-md/main/install.sh | bash
+# Add agent-md to an existing project
+git clone https://github.com/iamfakeguru/agent-md /tmp/agent-md
+rsync -a --exclude='.git' /tmp/agent-md/ ./
 ```
 
-Installs support for Claude Code, Codex, Cursor, and Windsurf by default.
+Ships support for Claude Code, Codex, Cursor, and Windsurf out of the box.
 
-## What You Get
+## What's In The Template
 
 ```text
-your-project/
+agent-md/
   AGENT.md                         # source of truth
   AGENTS.md                        # Codex / Cursor / Windsurf
   CLAUDE.md                        # Claude Code
+  .cursor/rules/agent-md.mdc       # Cursor project rule
+  .windsurf/rules/agent-md.md      # Windsurf workspace rule
   agent-md.toml.example            # deterministic verification config
 
   .claude/
@@ -42,9 +51,6 @@ your-project/
   .agents/skills/                  # native Codex skills
     agent-md-verify/
     visual-evidence/
-
-  .cursor/rules/agent-md.mdc       # Cursor project rule
-  .windsurf/rules/agent-md.md      # Windsurf workspace rule
 
   .agent-md/
     bin/
@@ -118,30 +124,17 @@ codex_hooks = true
 
 in `~/.codex/config.toml`.
 
-## Install Options
+## Adopting Into An Existing Project
 
-```bash
-# All supported agents
-./install.sh .
+When copying these files into a project that already has its own rule
+files or `.claude/settings.json`, merge by hand rather than overwriting:
 
-# Specific agents
-./install.sh --agent=claude .
-./install.sh --agent=codex,cursor .
-
-# Git hook fallback
-./install.sh --githooks .
-./install.sh --no-githooks .
-
-# Claude settings handling
-./install.sh --claude-settings=skip .
-./install.sh --claude-settings=merge .
-./install.sh --claude-settings=replace .
-```
-
-The installer backs up existing top-level rule files before replacing
-them. Existing `memory/*.md` files are never overwritten. Existing
-`.claude/settings.json` is skipped by default unless you choose `merge`
-or `replace`.
+- Keep your existing `memory/*.md` — they hold your project state.
+- If you already wire `.claude/hooks` in `settings.json`, splice the
+  `hooks` entries from this template's `.claude/settings.json` into yours
+  instead of replacing the whole file.
+- Activate the git-hook fallback only if you want it:
+  `git config core.hooksPath .githooks`.
 
 ## Deterministic Verification
 
@@ -237,11 +230,11 @@ Use Codex skills with `$agent-md-verify` or `$visual-evidence`.
 
 ```bash
 bats tests/
-shellcheck .claude/hooks/*.sh .codex/hooks/*.sh .agent-md/bin/*.sh .githooks/pre-commit install.sh
+shellcheck .claude/hooks/*.sh .codex/hooks/*.sh .agent-md/bin/*.sh .githooks/pre-commit
 ```
 
-CI runs Bats, ShellCheck, JSON validation, alias-sync checks, and
-installer smoke tests.
+CI runs Bats, ShellCheck, JSON validation, and agent-file sync checks
+(`AGENT.md` must match its shipped copies and wrappers).
 
 ## License
 

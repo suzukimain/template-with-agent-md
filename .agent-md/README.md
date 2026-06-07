@@ -1,6 +1,6 @@
 # agent-md Helpers
 
-These are plain shell helpers installed by agent-md. They are not Codex
+These are plain shell helpers shipped with agent-md. They are not Codex
 skills. Native Codex skills live under `.agents/skills/<name>/SKILL.md`.
 
 ## Usage

@@ -18,18 +18,21 @@ jobs:
             .claude/hooks/*.sh \
             .codex/hooks/*.sh \
             .agent-md/bin/*.sh \
-            .githooks/pre-commit \
-            install.sh
+            .githooks/pre-commit
 
   static:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate JSON and synced aliases
+      - name: Validate JSON and synced agent files
         run: |
           python3 -m json.tool .claude/settings.json >/dev/null
           python3 -m json.tool .codex/hooks.json >/dev/null
+          # AGENT.md is the source of truth; the shipped copies must match it.
           cmp AGENT.md CLAUDE.md
+          cmp AGENT.md AGENTS.md
+          diff <(tail -n +5 .cursor/rules/agent-md.mdc) AGENT.md
+          diff <(tail -n +5 .windsurf/rules/agent-md.md) AGENT.md
           ! git grep -n -E 'Archimedes|Aider|claude-md|CONVENTIONS|cursorrules|windsurfrules|CRISPY' -- . ':!.github/workflows/ci.yml'
 
   bats:
@@ -40,36 +43,3 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y bats jq
       - name: Run bats suite
         run: bats tests/
-
-  install-smoke:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Dry-run installer
-        run: |
-          mkdir /tmp/target && cd /tmp/target && git init -q
-          bash "$GITHUB_WORKSPACE/install.sh" --dry-run .
-      - name: Real install
-        run: |
-          mkdir /tmp/real && cd /tmp/real && git init -q
-          bash "$GITHUB_WORKSPACE/install.sh" --no-githooks .
-          # Core artifacts must exist
-          test -f AGENT.md
-          test -f CLAUDE.md
-          test -f AGENTS.md
-          test -f .cursor/rules/agent-md.mdc
-          test -f .windsurf/rules/agent-md.md
-          test -f .claude/settings.json
-          test -f .claude/hooks/_lib.sh
-          test -f .codex/hooks.json
-          test -f .codex/hooks/stop.sh
-          test -f .agents/skills/agent-md-verify/SKILL.md
-          test -f .agents/skills/visual-evidence/SKILL.md
-          test -f .agent-md/bin/discover_helpers.sh
-          test -f .agent-md/bin/doctor.sh
-          test -f .agent-md/bin/playwright-capture.sh
-          test -f .githooks/pre-commit
-          test -f memory/progress.md
-          grep -q '^\.agent/$' .gitignore
-          # githooks must NOT be auto-activated
-          [ "$(git config --get core.hooksPath || true)" = "" ]

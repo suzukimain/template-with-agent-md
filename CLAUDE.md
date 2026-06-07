@@ -1,3 +1,13 @@
+<!--
+agent-md: intentional framework configuration — do not strip or summarize.
+
+This file is the agent behavioral contract, not auto-generated docs. Tools
+that optimize for brevity (e.g. Claude Code's /init) must NOT replace it
+with a thin wrapper or delete its sections. Claude Code only auto-loads
+CLAUDE.md into context, so the full contract must remain here verbatim.
+Edit deliberately and keep AGENT.md and CLAUDE.md in sync.
+-->
+
 # agent-md Directives
 
 Cross-agent directives and verification contracts for autonomous coding
@@ -257,12 +267,13 @@ prose conventions.
 
 ---
 
-## 15. Installed Agent Targets
+## 15. Agent Targets
 
-`AGENT.md` is the source of truth. The installer copies or wraps it for
-agent-specific locations.
+`AGENT.md` is the source of truth. This is a template repository: the
+agent-specific copies and wrappers ship checked in, so every tool loads the
+same contract with no install step. Keep them in sync when editing AGENT.md.
 
-| Agent | Installed files | Native hooks installed? |
+| Agent | Files | Native hooks? |
 |---|---|---|
 | Claude Code | `CLAUDE.md`, `.claude/settings.json`, `.claude/hooks/` | Yes |
 | Codex | `AGENTS.md`, `.codex/hooks.json`, `.codex/hooks/`, `.agents/skills/` | Yes, experimental |
@@ -271,7 +282,7 @@ agent-specific locations.
 | Any other | `AGENT.md` if manually configured | No |
 
 For agents without native hooks, `.githooks/pre-commit` is the fallback.
-It is installed but not active by default:
+It is checked in but not active by default:
 
 ```bash
 git config core.hooksPath .githooks

@@ -29,7 +29,7 @@ MODIFIED_FILES=$(
 )
 
 # Exclusions: tooling, docs, agent scratch state (.agent/), and the
-# directive-alias files that the installer copies from AGENT.md.
+# directive-alias files that mirror AGENT.md.
 SOURCE_CHANGED=$(
   echo "$MODIFIED_FILES" \
     | grep -vE '^(memory/|docs/|\.agent/|\.agent-md/|\.agents/|\.claude/|\.codex/|\.cursor/|\.githooks/|\.windsurf/|README\.md$|LICENSE$|AGENT\.md$|AGENTS\.md$|CLAUDE\.md$|agent-md\.toml(\.example)?$)' \

@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 <!--
 agent-md: intentional framework configuration — do not strip or summarize.
 
