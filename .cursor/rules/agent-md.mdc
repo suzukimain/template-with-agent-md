@@ -5,11 +5,9 @@ alwaysApply: true
 <!--
 agent-md: intentional framework configuration — do not strip or summarize.
 
-This file is the agent behavioral contract, not auto-generated docs. Tools
-that optimize for brevity (e.g. Claude Code's /init) must NOT replace it
-with a thin wrapper or delete its sections. Claude Code only auto-loads
-CLAUDE.md into context, so the full contract must remain here verbatim.
-Edit deliberately and keep AGENT.md and CLAUDE.md in sync.
+AGENT.md is the source of truth. Claude Code imports it through the
+@AGENT.md line in CLAUDE.md; keep that import intact. Codex, Cursor, and
+Windsurf need the full contract in their own supported rule files.
 -->
 
 # agent-md Directives
@@ -52,6 +50,11 @@ when they exist. As work progresses, keep them accurate.
 - `memory/gotchas.md` — mistakes already corrected by the human
 
 If the files do not exist, initialize them before substantive work.
+
+When maintaining this template repository, keep the tracked memory files
+as reusable scaffolds. Keep maintenance plans, progress, verification
+results, and correction logs outside the template. Projects created from
+the template can fill in their own memory files.
 
 ---
 

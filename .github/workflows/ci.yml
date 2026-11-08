@@ -28,8 +28,9 @@ jobs:
         run: |
           python3 -m json.tool .claude/settings.json >/dev/null
           python3 -m json.tool .codex/hooks.json >/dev/null
-          # AGENT.md is the source of truth; the shipped copies must match it.
-          cmp AGENT.md CLAUDE.md
+          # Claude's wrapper imports the full contract from AGENT.md.
+          grep -qF '@AGENT.md' CLAUDE.md
+          # Other shipped agent files keep full copies of the contract.
           cmp AGENT.md AGENTS.md
           diff <(tail -n +5 .cursor/rules/agent-md.mdc) AGENT.md
           diff <(tail -n +5 .windsurf/rules/agent-md.md) AGENT.md
